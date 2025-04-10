@@ -25,6 +25,17 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    #base case
+    if n<=10:
+        if n==8:
+            return 1
+        else:
+            return 0
+    
+    if n%10==8:
+        return 1+num_eights(n//10)
+    else:
+        return num_eights(n//10)
 
 
 def digit_distance(n):
@@ -47,6 +58,13 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n<10:
+        return 0
+    def compute(n,digit):
+        if n<10:
+            return abs(sub(n%10,digit))
+        return abs(sub(n%10,digit))+compute(n//10,n%10)
+    return compute(n//10,n%10)
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -71,6 +89,14 @@ def interleaved_sum(n, odd_func, even_func):
     True
     """
     "*** YOUR CODE HERE ***"
+    def sum_from(k):
+        if k > n:
+            return 0
+        elif k == n:
+            return odd_func(k)
+        else:
+            return odd_func(k) + even_func(k+1) + sum_from(k + 2)
+    return sum_from(1)
 
 
 def next_smaller_dollar(bill):
@@ -107,7 +133,15 @@ def count_dollars(total):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    def partition(total,max_dollar):
+        if max_dollar==1:
+            return 1
+        if max_dollar>total:
+            return partition(total,next_smaller_dollar(max_dollar))
+        if total==0:
+            return 1
+        return partition(total-max_dollar,max_dollar)+partition(total,next_smaller_dollar(max_dollar))
+    return partition(total,100)
 
 def next_larger_dollar(bill):
     """Returns the next larger bill in order."""
